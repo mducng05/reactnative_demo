@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native";
+import { Provider } from "react-redux";
+import { store } from "./src/store/store";
+import { UserListScreen } from "./src/screens/UserListScreen";
+import { ThemeProvider, useTheme } from "./src/contexts/ThemeContext";
+
+const MainContent = () => {
+  const { isDark } = useTheme();
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: isDark ? "#0B1120" : "#F8FAFC" }}>
+      <StatusBar style={isDark ? "light" : "dark"} />
+      <UserListScreen />
+    </SafeAreaView>
+  );
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <ThemeProvider>
+        <MainContent />
+      </ThemeProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
